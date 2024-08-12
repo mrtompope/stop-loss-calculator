@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;2:1 Stop Loss Calculator&lt;/title&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;2:1 Stop Loss Calculator&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;form id="calculator-form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="trade-type"&gt;Trade Type (Buy/Sell):&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="trade-type" name="trade-type"&gt;&lt;br&gt;&lt;br&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="entry-price"&gt;Entry Price:&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="number" id="entry-price" name="entry-price" step="0.01"&gt;&lt;br&gt;&lt;br&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="tp1"&gt;Take Profit 1:&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="number" id="tp1" name="tp1" step="0.01"&gt;&lt;br&gt;&lt;br&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="tp2"&gt;Take Profit 2:&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="number" id="tp2" name="tp2" step="0.01"&gt;&lt;br&gt;&lt;br&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" onclick="calculateStopLoss()"&gt;Calculate Stop Loss&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/form&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h3&gt;Results:&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Stop Loss for TP1: &lt;span id="sl-tp1"&gt;&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Stop Loss for TP2: &lt;span id="sl-tp2"&gt;&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function calculateStopLoss() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tradeType = document.getElementById('trade-type').value.toLowerCase();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const entryPrice = parseFloat(document.getElementById('entry-price').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tp1 = parseFloat(document.getElementById('tp1').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tp2 = parseFloat(document.getElementById('tp2').value);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ticksToTP1 = Math.abs(tp1 - entryPrice) * 100;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ticksToTP2 = Math.abs(tp2 - entryPrice) * 100;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let stopLossTP1, stopLossTP2;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (tradeType === 'buy') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopLossTP1 = entryPrice - (ticksToTP1 / 2) / 100;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopLossTP2 = entryPrice - (ticksToTP2 / 2) / 100;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (tradeType === 'sell') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopLossTP1 = entryPrice + (ticksToTP1 / 2) / 100;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopLossTP2 = entryPrice + (ticksToTP2 / 2) / 100;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>alert('Please enter either "Buy" or "Sell" for the trade type.');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('sl-tp1').textContent = stopLossTP1.toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('sl-tp2').textContent = stopLossTP2.toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
